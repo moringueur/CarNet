@@ -122,8 +122,8 @@ export function DossierScreen({ navigation }: any) {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.headerBar}>
         <View>
           <Text style={styles.screenTitle}>Dossier</Text>
           <Text style={styles.screenSubtitle}>{allInvoices.length} facture{allInvoices.length !== 1 ? 's' : ''}</Text>
@@ -137,6 +137,7 @@ export function DossierScreen({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.container}>
       {/* Summary */}
       <View style={styles.summaryCard}>
         <View style={styles.summaryItem}>
@@ -254,21 +255,24 @@ export function DossierScreen({ navigation }: any) {
           </View>
         </View>
       )}
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: Colors.headerBg },
   container: { flex: 1, backgroundColor: Colors.background },
-  header: {
+  headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    backgroundColor: Colors.headerBg,
   },
-  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.textPrimary },
-  screenSubtitle: { fontSize: 13, color: Colors.textSecondary, marginTop: 2 },
+  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.headerText },
+  screenSubtitle: { fontSize: 13, color: '#ffffffaa', marginTop: 2 },
   scanBtn: {
     backgroundColor: Colors.primary,
     borderRadius: 12,

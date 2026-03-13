@@ -80,11 +80,11 @@ export function RapportsScreen({ navigation }: any) {
   const maxAmount = Math.max(...monthlyData.map((m) => m.amount), 1);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Text style={styles.screenTitle}>Rapports</Text>
-        </View>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.headerBar}>
+        <Text style={styles.screenTitle}>Rapports</Text>
+      </View>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
         {/* Period selector */}
         <View style={styles.periodSelector}>
@@ -259,9 +259,14 @@ export function RapportsScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: Colors.headerBg },
   container: { flex: 1, backgroundColor: Colors.background },
-  header: { paddingHorizontal: 16, paddingVertical: 16 },
-  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.textPrimary },
+  headerBar: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    backgroundColor: Colors.headerBg,
+  },
+  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.headerText },
   periodSelector: {
     flexDirection: 'row',
     marginHorizontal: 16,

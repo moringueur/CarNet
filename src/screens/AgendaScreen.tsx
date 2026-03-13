@@ -151,13 +151,14 @@ export function AgendaScreen({ navigation }: any) {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.headerBar}>
         <Text style={styles.screenTitle}>Agenda</Text>
         <TouchableOpacity style={styles.addBtn} onPress={() => setShowModal(true)}>
           <Ionicons name="add" size={22} color="#000" />
         </TouchableOpacity>
       </View>
+      <View style={styles.container}>
 
       {/* Filter Tabs */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterBar}>
@@ -300,20 +301,23 @@ export function AgendaScreen({ navigation }: any) {
           </View>
         </View>
       </Modal>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: Colors.headerBg },
   container: { flex: 1, backgroundColor: Colors.background },
-  header: {
+  headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    backgroundColor: Colors.headerBg,
   },
-  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.textPrimary },
+  screenTitle: { fontSize: 24, fontWeight: '800', color: Colors.headerText },
   addBtn: {
     backgroundColor: Colors.primary,
     borderRadius: 12,
@@ -354,6 +358,11 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 10,
     borderLeftWidth: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   taskHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   taskTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 },

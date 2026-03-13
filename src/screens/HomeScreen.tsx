@@ -55,26 +55,27 @@ export function HomeScreen({ navigation }: any) {
     .reduce((sum, i) => sum + i.amount, 0);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.headerBg} />
+      {/* Dark header */}
+      <View style={styles.headerBar}>
+        <View>
+          <Text style={styles.greeting}>Bonjour,</Text>
+          <Text style={styles.subtitle}>Voici l'état de votre véhicule</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.vehiclesBtn}
+          onPress={() => navigation.navigate('VehicleSearch')}
+        >
+          <Ionicons name="car" size={14} color={Colors.primary} />
+          <Text style={styles.vehiclesBtnText}>Mes véhicules</Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView
+        style={styles.container}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={Colors.primary} />}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>Bonjour,</Text>
-            <Text style={styles.subtitle}>Voici l'état de votre véhicule</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.vehiclesBtn}
-            onPress={() => navigation.navigate('VehicleSearch')}
-          >
-            <Ionicons name="car" size={14} color={Colors.primary} />
-            <Text style={styles.vehiclesBtnText}>Mes véhicules</Text>
-          </TouchableOpacity>
-        </View>
 
         {vehicle ? (
           <>
@@ -197,34 +198,36 @@ export function HomeScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: Colors.headerBg },
   container: { flex: 1, backgroundColor: Colors.background },
-  header: {
+  headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    backgroundColor: Colors.headerBg,
   },
   greeting: {
     fontSize: 28,
     fontWeight: '800',
-    color: Colors.textPrimary,
+    color: Colors.headerText,
   },
   subtitle: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: '#ffffffaa',
     marginTop: 2,
   },
   vehiclesBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: Colors.card,
+    backgroundColor: '#ffffff15',
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: '#ffffff20',
   },
   vehiclesBtnText: {
     color: Colors.primary,
@@ -244,6 +247,11 @@ const styles = StyleSheet.create({
     padding: 14,
     alignItems: 'center',
     gap: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
   statCardValue: {
     fontSize: 16,
@@ -274,8 +282,11 @@ const styles = StyleSheet.create({
     padding: 14,
     alignItems: 'center',
     gap: 8,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
   actionIcon: {
     borderRadius: 10,

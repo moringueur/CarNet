@@ -110,14 +110,15 @@ export function SaleTransferScreen({ navigation, route }: any) {
     : [];
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.headerBar}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={22} color={Colors.textPrimary} />
+          <Ionicons name="arrow-back" size={22} color={Colors.headerText} />
         </TouchableOpacity>
         <Text style={styles.screenTitle}>Vente sécurisée</Text>
         <View style={{ width: 22 }} />
       </View>
+      <View style={styles.container}>
 
       {/* Tab selector */}
       <View style={styles.tabSelector}>
@@ -327,20 +328,23 @@ export function SaleTransferScreen({ navigation, route }: any) {
         )}
         <View style={{ height: 40 }} />
       </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: Colors.headerBg },
   container: { flex: 1, backgroundColor: Colors.background },
-  header: {
+  headerBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    backgroundColor: Colors.headerBg,
   },
-  screenTitle: { fontSize: 20, fontWeight: '700', color: Colors.textPrimary },
+  screenTitle: { fontSize: 20, fontWeight: '700', color: Colors.headerText },
   tabSelector: {
     flexDirection: 'row',
     marginHorizontal: 16,
@@ -405,7 +409,7 @@ const styles = StyleSheet.create({
   generateForm: { paddingHorizontal: 16, gap: 12 },
   fieldLabel: { fontSize: 13, color: Colors.textSecondary, fontWeight: '500' },
   fieldInput: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 14,
     fontSize: 15,

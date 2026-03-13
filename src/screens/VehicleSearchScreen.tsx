@@ -14,8 +14,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
 import { useVehicleStore } from '../store/vehicleStore';
+import { useMaintenanceStore } from '../store/maintenanceStore';
+import { getMaintenanceSchedule, getSupportedBrands } from '../utils/maintenanceSchedule';
 
 const FUEL_TYPES = ['Essence', 'Diesel', 'Hybride', 'Électrique', 'GPL'];
+const SUPPORTED_BRANDS = getSupportedBrands();
 
 function formatPlateDisplay(raw: string): string {
   const clean = raw.toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -32,6 +35,8 @@ export function VehicleSearchScreen({ navigation }: any) {
   const [year, setYear] = useState('');
   const [fuel, setFuel] = useState('Diesel');
   const { addVehicle } = useVehicleStore();
+  const { addTask } = useMaintenanceStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   function handlePlateChange(text: string) {
     const clean = text.toUpperCase().replace(/[^A-Z0-9-]/g, '');
@@ -61,14 +66,42 @@ export function VehicleSearchScreen({ navigation }: any) {
       Alert.alert('Erreur', 'Veuillez entrer une année valide.');
       return;
     }
-    await addVehicle({
-      plate: plate.replace(/-/g, '').toUpperCase(),
-      brand: brand.trim(),
-      model: model.trim(),
-      year: yearNum,
-      fuel,
-    });
-    navigation.goBack();
+    setIsLoading(true);
+    try {
+      const vehicle = await addVehicle({
+        plate: plate.replace(/-/g, '').toUpperCase(),
+        brand: brand.trim(),
+        model: model.trim(),
+        year: yearNum,
+        fuel,
+      });
+
+      // Fetch manufacturer maintenance schedule and auto-create tasks
+      const schedule = getMaintenanceSchedule(brand.trim(), fuel);
+      const now = new Date();
+      for (const item of schedule) {
+        const dueDate = item.intervalMonths
+          ? new Date(now.getTime() + item.intervalMonths * 30 * 24 * 60 * 60 * 1000).toISOString()
+          : undefined;
+        await addTask({
+          vehicleId: vehicle.id,
+          title: item.title,
+          category: item.category,
+          dueDate,
+          dueMileage: item.intervalKm || undefined,
+          notes: item.description,
+          status: 'pending',
+        });
+      }
+
+      Alert.alert(
+        'Véhicule ajouté !',
+        `${schedule.length} tâches d'entretien constructeur ont été ajoutées automatiquement.`,
+        [{ text: 'Super !', onPress: () => navigation.goBack() }]
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -131,6 +164,29 @@ export function VehicleSearchScreen({ navigation }: any) {
                     placeholder="ex: Peugeot"
                     placeholderTextColor={Colors.textMuted}
                   />
+                  {!brand && (
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 8 }}>
+                      <View style={{ flexDirection: 'row', gap: 6 }}>
+                        {SUPPORTED_BRANDS.map((b) => (
+                          <TouchableOpacity
+                            key={b}
+                            style={styles.brandChip}
+                            onPress={() => setBrand(b)}
+                          >
+                            <Text style={styles.brandChipText}>{b}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    </ScrollView>
+                  )}
+                  {brand && SUPPORTED_BRANDS.some((b) => b.toLowerCase() === brand.toLowerCase()) && (
+                    <View style={styles.scheduleInfoBadge}>
+                      <Ionicons name="checkmark-circle" size={14} color={Colors.success} />
+                      <Text style={styles.scheduleInfoText}>
+                        Carnet d'entretien {brand} disponible
+                      </Text>
+                    </View>
+                  )}
                 </View>
 
                 <View style={styles.field}>
@@ -175,8 +231,14 @@ export function VehicleSearchScreen({ navigation }: any) {
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.mainBtn} onPress={handleSave}>
-                <Text style={styles.mainBtnText}>Ajouter le véhicule</Text>
+              <TouchableOpacity
+                style={[styles.mainBtn, isLoading && { opacity: 0.7 }]}
+                onPress={handleSave}
+                disabled={isLoading}
+              >
+                <Text style={styles.mainBtnText}>
+                  {isLoading ? 'Chargement du carnet constructeur...' : 'Ajouter le véhicule'}
+                </Text>
               </TouchableOpacity>
             </>
           )}
@@ -215,7 +277,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   plateInput: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.white,
     borderRadius: 14,
     padding: 16,
     fontSize: 24,
@@ -226,6 +288,11 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
     letterSpacing: 4,
     fontFamily: 'monospace',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
   plateHint: {
     fontSize: 12,
@@ -282,7 +349,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   fieldInput: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 14,
     fontSize: 15,
@@ -309,4 +376,33 @@ const styles = StyleSheet.create({
   },
   fuelBtnText: { color: Colors.textSecondary, fontSize: 13 },
   fuelBtnTextActive: { color: Colors.primary, fontWeight: '600' },
+  brandChip: {
+    backgroundColor: Colors.primary + '15',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: Colors.primary + '30',
+  },
+  brandChipText: {
+    color: Colors.primary,
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  scheduleInfoBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 8,
+    backgroundColor: Colors.success + '10',
+    borderRadius: 8,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: Colors.success + '25',
+  },
+  scheduleInfoText: {
+    color: Colors.success,
+    fontSize: 12,
+    fontWeight: '500',
+  },
 });
