@@ -9,9 +9,9 @@ export const Colors = {
   headerBg: '#1a1a2e',
   headerText: '#ffffff',
 
-  primary: '#00b894',
-  primaryDark: '#00a07e',
-  primaryLight: '#55efc4',
+  primary: '#682860',
+  primaryDark: '#4a1d45',
+  primaryLight: '#8b3a7a',
 
   accent: '#3b82f6',
   success: '#22c55e',
@@ -30,7 +30,7 @@ export const Colors = {
   gradientEnd: '#2d2d4e',
 
   tabBar: '#ffffff',
-  tabBarActive: '#00b894',
+  tabBarActive: '#682860',
   tabBarInactive: '#9ca3af',
 
   shadow: '#00000010',

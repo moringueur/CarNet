@@ -132,7 +132,7 @@ export function DossierScreen({ navigation }: any) {
           style={styles.scanBtn}
           onPress={() => navigation.navigate('Scanner', { vehicleId: vehicle?.id })}
         >
-          <Ionicons name="scan" size={18} color="#000" />
+          <Ionicons name="scan" size={18} color="#fff" />
           <Text style={styles.scanBtnText}>Scanner</Text>
         </TouchableOpacity>
       </View>
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  scanBtnText: { color: '#000', fontWeight: '700', fontSize: 13 },
+  scanBtnText: { color: '#fff', fontWeight: '700', fontSize: 13 },
   summaryCard: {
     backgroundColor: Colors.card,
     borderRadius: 16,

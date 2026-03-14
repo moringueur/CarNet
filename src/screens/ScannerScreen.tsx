@@ -230,10 +230,10 @@ export function ScannerScreen({ navigation, route }: any) {
               disabled={isProcessing}
             >
               {isProcessing ? (
-                <ActivityIndicator color="#000" size="small" />
+                <ActivityIndicator color="#fff" size="small" />
               ) : (
                 <>
-                  <Ionicons name="text" size={18} color="#000" />
+                  <Ionicons name="text" size={18} color="#fff" />
                   <Text style={styles.ocrBtnText}>Recadrage automatique</Text>
                 </>
               )}
@@ -342,7 +342,7 @@ export function ScannerScreen({ navigation, route }: any) {
           </View>
 
           <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
-            <Ionicons name="save" size={18} color="#000" />
+            <Ionicons name="save" size={18} color="#fff" />
             <Text style={styles.saveBtnText}>Enregistrer la facture</Text>
           </TouchableOpacity>
 
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   permissionTitle: { fontSize: 22, fontWeight: '700', color: Colors.textPrimary },
   permissionText: { fontSize: 14, color: Colors.textSecondary, textAlign: 'center', lineHeight: 20 },
   permissionBtn: { backgroundColor: Colors.primary, borderRadius: 14, paddingHorizontal: 28, paddingVertical: 14 },
-  permissionBtnText: { color: '#000', fontSize: 15, fontWeight: '700' },
+  permissionBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
   galleryFallback: { marginTop: 8 },
   galleryFallbackText: { color: Colors.primary, fontSize: 14, fontWeight: '500' },
   previewHeader: {
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 14,
   },
-  ocrBtnText: { color: '#000', fontWeight: '700' },
+  ocrBtnText: { color: '#fff', fontWeight: '700' },
   noOcrBtn: { alignItems: 'center', paddingVertical: 12 },
   noOcrBtnText: { color: Colors.textSecondary, fontSize: 14 },
   formContainer: { flex: 1 },
@@ -550,5 +550,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
-  saveBtnText: { color: '#000', fontSize: 15, fontWeight: '700' },
+  saveBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 });

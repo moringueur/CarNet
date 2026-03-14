@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   periodBtn: { flex: 1, padding: 9, borderRadius: 10, alignItems: 'center' },
   periodBtnActive: { backgroundColor: Colors.primary },
   periodBtnText: { color: Colors.textSecondary, fontSize: 13, fontWeight: '500' },
-  periodBtnTextActive: { color: '#000', fontWeight: '700' },
+  periodBtnTextActive: { color: '#fff', fontWeight: '700' },
   expensesCard: {
     marginHorizontal: 16,
     borderRadius: 16,

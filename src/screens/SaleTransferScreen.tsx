@@ -219,8 +219,8 @@ export function SaleTransferScreen({ navigation, route }: any) {
                     <Text style={styles.codeActionText}>Copier</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.codeActionBtn, styles.shareCodeBtn]} onPress={handleShareCode}>
-                    <Ionicons name="share-social" size={18} color="#000" />
-                    <Text style={[styles.codeActionText, { color: '#000' }]}>Partager</Text>
+                    <Ionicons name="share-social" size={18} color="#fff" />
+                    <Text style={[styles.codeActionText, { color: '#fff' }]}>Partager</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   generateBtnDisabled: { opacity: 0.6 },
-  generateBtnText: { color: '#000', fontSize: 16, fontWeight: '700' },
+  generateBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
   codeCard: {
     backgroundColor: Colors.card,
     borderRadius: 20,
@@ -545,5 +545,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
-  confirmBtnText: { color: '#000', fontSize: 15, fontWeight: '700' },
+  confirmBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 });

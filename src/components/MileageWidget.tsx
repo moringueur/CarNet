@@ -254,5 +254,5 @@ const styles = StyleSheet.create({
   cancelBtn: { backgroundColor: Colors.surfaceElevated },
   cancelBtnText: { color: Colors.textSecondary, fontWeight: '600' },
   saveBtn: { backgroundColor: Colors.primary },
-  saveBtnText: { color: '#000', fontWeight: '700' },
+  saveBtnText: { color: '#fff', fontWeight: '700' },
 });

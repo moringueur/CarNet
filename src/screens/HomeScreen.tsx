@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   addVehicleBtnText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 15,
     fontWeight: '700',
   },

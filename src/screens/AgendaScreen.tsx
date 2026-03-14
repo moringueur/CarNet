@@ -155,7 +155,7 @@ export function AgendaScreen({ navigation }: any) {
       <View style={styles.headerBar}>
         <Text style={styles.screenTitle}>Agenda</Text>
         <TouchableOpacity style={styles.addBtn} onPress={() => setShowModal(true)}>
-          <Ionicons name="add" size={22} color="#000" />
+          <Ionicons name="add" size={22} color="#fff" />
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
@@ -419,5 +419,5 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 16,
   },
-  saveBtnText: { color: '#000', fontSize: 15, fontWeight: '700' },
+  saveBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 });
