@@ -6,7 +6,7 @@ export const Colors = {
   border: '#e2e5ea',
 
   // Dark header / title bar
-  headerBg: '#689d71',
+  headerBg: '#95A595',
   headerText: '#ffffff',
 
   primary: '#682860',
