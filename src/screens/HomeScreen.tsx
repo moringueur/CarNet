@@ -164,12 +164,12 @@ export function HomeScreen({ navigation }: any) {
 
                 <TouchableOpacity
                   style={styles.actionBtn}
-                  onPress={() => navigation.navigate('Rapports')}
+                  onPress={() => navigation.navigate('Assistance')}
                 >
                   <View style={[styles.actionIcon, { backgroundColor: Colors.success + '20' }]}>
-                    <Ionicons name="bar-chart" size={22} color={Colors.success} />
+                    <Ionicons name="shield-checkmark" size={22} color={Colors.success} />
                   </View>
-                  <Text style={styles.actionLabel}>Rapports</Text>
+                  <Text style={styles.actionLabel}>Assistance</Text>
                 </TouchableOpacity>
               </View>
             </View>

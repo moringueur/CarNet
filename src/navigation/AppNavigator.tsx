@@ -10,6 +10,7 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { AgendaScreen } from '../screens/AgendaScreen';
 import { DossierScreen } from '../screens/DossierScreen';
 import { RapportsScreen } from '../screens/RapportsScreen';
+import { AssistanceScreen } from '../screens/AssistanceScreen';
 import { ProfilScreen } from '../screens/ProfilScreen';
 import { VehicleSearchScreen } from '../screens/VehicleSearchScreen';
 import { ScannerScreen } from '../screens/ScannerScreen';
@@ -72,11 +73,11 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Rapports"
-        component={RapportsScreen}
+        name="Assistance"
+        component={AssistanceScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="bar-chart" size={size} color={color} />
+            <Ionicons name="shield-checkmark" size={size} color={color} />
           ),
         }}
       />
