@@ -1,10 +1,11 @@
-import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, ActivityIndicator, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/colors';
+import { useAuthStore } from '../store/authStore';
 
 import { HomeScreen } from '../screens/HomeScreen';
 import { AgendaScreen } from '../screens/AgendaScreen';
@@ -15,6 +16,8 @@ import { ProfilScreen } from '../screens/ProfilScreen';
 import { VehicleSearchScreen } from '../screens/VehicleSearchScreen';
 import { ScannerScreen } from '../screens/ScannerScreen';
 import { SaleTransferScreen } from '../screens/SaleTransferScreen';
+import { LoginScreen } from '../screens/LoginScreen';
+import { RegisterScreen } from '../screens/RegisterScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -94,27 +97,56 @@ function TabNavigator() {
   );
 }
 
+function AppStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Main" component={TabNavigator} />
+      <Stack.Screen
+        name="VehicleSearch"
+        component={VehicleSearchScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen
+        name="Scanner"
+        component={ScannerScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen
+        name="SaleTransfer"
+        component={SaleTransferScreen}
+        options={{ presentation: 'modal' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function AuthStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+    </Stack.Navigator>
+  );
+}
+
 export function AppNavigator() {
+  const { user, isLoading, loadSession } = useAuthStore();
+
+  useEffect(() => {
+    loadSession();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.headerBg }}>
+        <ActivityIndicator size="large" color={Colors.white} />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Main" component={TabNavigator} />
-        <Stack.Screen
-          name="VehicleSearch"
-          component={VehicleSearchScreen}
-          options={{ presentation: 'modal' }}
-        />
-        <Stack.Screen
-          name="Scanner"
-          component={ScannerScreen}
-          options={{ presentation: 'modal' }}
-        />
-        <Stack.Screen
-          name="SaleTransfer"
-          component={SaleTransferScreen}
-          options={{ presentation: 'modal' }}
-        />
-      </Stack.Navigator>
+      {user ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Switch,
   Alert,
 } from 'react-native';
@@ -15,12 +14,15 @@ import { Colors } from '../constants/colors';
 import { useVehicleStore } from '../store/vehicleStore';
 import { useInvoiceStore } from '../store/invoiceStore';
 import { useMaintenanceStore } from '../store/maintenanceStore';
+import { useAuthStore } from '../store/authStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function ProfilScreen({ navigation }: any) {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+
+  const { user, signOut } = useAuthStore();
+  const name = user?.user_metadata?.name || user?.email?.split('@')[0] || '';
+  const email = user?.email || '';
 
   const { vehicles, deleteVehicle, setActiveVehicle, activeVehicleId } = useVehicleStore();
   const { invoices } = useInvoiceStore();
@@ -31,7 +33,7 @@ export function ProfilScreen({ navigation }: any) {
   async function handleClearData() {
     Alert.alert(
       'Réinitialiser',
-      'Voulez-vous supprimer toutes les données ? Cette action est irréversible.',
+      'Voulez-vous supprimer toutes les données locales ? Cette action est irréversible.',
       [
         { text: 'Annuler', style: 'cancel' },
         {
@@ -41,6 +43,21 @@ export function ProfilScreen({ navigation }: any) {
             await AsyncStorage.clear();
             Alert.alert('Succès', 'Les données ont été supprimées. Redémarrez l\'application.');
           },
+        },
+      ]
+    );
+  }
+
+  function handleLogout() {
+    Alert.alert(
+      'Déconnexion',
+      'Voulez-vous vous déconnecter ?',
+      [
+        { text: 'Annuler', style: 'cancel' },
+        {
+          text: 'Déconnexion',
+          style: 'destructive',
+          onPress: () => signOut(),
         },
       ]
     );
@@ -158,27 +175,21 @@ export function ProfilScreen({ navigation }: any) {
         {/* Profile info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Informations personnelles</Text>
-          <View style={styles.field}>
-            <Text style={styles.fieldLabel}>Nom</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={name}
-              onChangeText={setName}
-              placeholder="Votre nom"
-              placeholderTextColor={Colors.textMuted}
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.fieldLabel}>Email</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="votre@email.com"
-              placeholderTextColor={Colors.textMuted}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
+          <View style={styles.infoCard}>
+            <View style={styles.infoRow}>
+              <Ionicons name="person-outline" size={16} color={Colors.textSecondary} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.infoLabel}>Nom</Text>
+                <Text style={styles.infoValue}>{name || '—'}</Text>
+              </View>
+            </View>
+            <View style={[styles.infoRow, { borderTopWidth: 1, borderTopColor: Colors.border }]}>
+              <Ionicons name="mail-outline" size={16} color={Colors.textSecondary} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.infoLabel}>Email</Text>
+                <Text style={styles.infoValue}>{email || '—'}</Text>
+              </View>
+            </View>
           </View>
         </View>
 
@@ -215,12 +226,20 @@ export function ProfilScreen({ navigation }: any) {
           </View>
         </View>
 
+        {/* Logout */}
+        <View style={styles.section}>
+          <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={18} color={Colors.primary} />
+            <Text style={styles.logoutBtnText}>Se déconnecter</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Danger zone */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: Colors.error }]}>Zone de danger</Text>
           <TouchableOpacity style={styles.dangerBtn} onPress={handleClearData}>
             <Ionicons name="trash" size={18} color={Colors.error} />
-            <Text style={styles.dangerBtnText}>Réinitialiser toutes les données</Text>
+            <Text style={styles.dangerBtnText}>Réinitialiser les données locales</Text>
           </TouchableOpacity>
         </View>
 
@@ -319,17 +338,6 @@ const styles = StyleSheet.create({
   },
   activeBadgeText: { color: Colors.primary, fontSize: 11, fontWeight: '600' },
   deleteBtn: { padding: 14 },
-  field: { marginBottom: 12 },
-  fieldLabel: { fontSize: 12, color: Colors.textSecondary, marginBottom: 6, fontWeight: '500' },
-  fieldInput: {
-    backgroundColor: Colors.surface,
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 14,
-    color: Colors.textPrimary,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
   menuCard: {
     backgroundColor: Colors.card,
     borderRadius: 14,
@@ -345,6 +353,30 @@ const styles = StyleSheet.create({
   menuItemLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   menuItemLabel: { fontSize: 14, color: Colors.textPrimary },
   menuItemValue: { fontSize: 13, color: Colors.textMuted },
+  infoCard: {
+    backgroundColor: Colors.card,
+    borderRadius: 14,
+    overflow: 'hidden',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 14,
+  },
+  infoLabel: { fontSize: 11, color: Colors.textMuted, marginBottom: 2 },
+  infoValue: { fontSize: 14, color: Colors.textPrimary, fontWeight: '500' },
+  logoutBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: Colors.primary + '10',
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: Colors.primary + '30',
+  },
+  logoutBtnText: { color: Colors.primary, fontSize: 14, fontWeight: '600' },
   dangerBtn: {
     flexDirection: 'row',
     alignItems: 'center',
