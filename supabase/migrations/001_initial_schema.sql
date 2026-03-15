@@ -118,14 +118,19 @@ ALTER TABLE public.invoices           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sale_transfers     ENABLE ROW LEVEL SECURITY;
 
 -- profiles
+DROP POLICY IF EXISTS "profiles_select" ON public.profiles;
+DROP POLICY IF EXISTS "profiles_insert" ON public.profiles;
+DROP POLICY IF EXISTS "profiles_update" ON public.profiles;
 CREATE POLICY "profiles_select" ON public.profiles FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "profiles_insert" ON public.profiles FOR INSERT WITH CHECK (auth.uid() = id);
 CREATE POLICY "profiles_update" ON public.profiles FOR UPDATE USING (auth.uid() = id);
 
 -- vehicles
+DROP POLICY IF EXISTS "vehicles_all" ON public.vehicles;
 CREATE POLICY "vehicles_all" ON public.vehicles FOR ALL USING (auth.uid() = user_id);
 
 -- mileage_entries (accès via véhicule)
+DROP POLICY IF EXISTS "mileage_entries_all" ON public.mileage_entries;
 CREATE POLICY "mileage_entries_all" ON public.mileage_entries FOR ALL
   USING (
     EXISTS (
@@ -136,12 +141,15 @@ CREATE POLICY "mileage_entries_all" ON public.mileage_entries FOR ALL
   );
 
 -- maintenance_tasks
+DROP POLICY IF EXISTS "maintenance_tasks_all" ON public.maintenance_tasks;
 CREATE POLICY "maintenance_tasks_all" ON public.maintenance_tasks FOR ALL USING (auth.uid() = user_id);
 
 -- invoices
+DROP POLICY IF EXISTS "invoices_all" ON public.invoices;
 CREATE POLICY "invoices_all" ON public.invoices FOR ALL USING (auth.uid() = user_id);
 
 -- sale_transfers
+DROP POLICY IF EXISTS "sale_transfers_all" ON public.sale_transfers;
 CREATE POLICY "sale_transfers_all" ON public.sale_transfers FOR ALL USING (auth.uid() = user_id);
 
 -- ============================================================
