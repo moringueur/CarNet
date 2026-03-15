@@ -22,14 +22,36 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.bibollet.CarNet"
     },
     "plugins": [
-      ["expo-camera", { "cameraPermission": "CarNet utilise la caméra pour scanner vos factures." }],
-      ["expo-image-picker", { "photosPermission": "CarNet accède à vos photos pour importer des factures." }]
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "CarNet utilise la caméra pour scanner vos factures."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "CarNet accède à vos photos pour importer des factures."
+        }
+      ]
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8b2c8c30-0443-4cc8-893f-065480a7440e"
+      }
     }
   }
 }
