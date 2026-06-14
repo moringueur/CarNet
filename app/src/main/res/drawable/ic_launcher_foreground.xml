@@ -1,0 +1,32 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Feuille de document blanche -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,28 h30 l10,10 v42 a4,4 0 0 1 -4,4 h-36 a4,4 0 0 1 -4,-4 v-48 a4,4 0 0 1 4,-4 z" />
+    <!-- Coin replié -->
+    <path
+        android:fillColor="#D6DEE9"
+        android:pathData="M60,28 l10,10 h-10 z" />
+
+    <!-- 3 lignes en acier -->
+    <path android:fillColor="#2D5BA8" android:pathData="M34,46 h22 v3 h-22 z" />
+    <path android:fillColor="#2D5BA8" android:pathData="M34,54 h22 v3 h-22 z" />
+    <path android:fillColor="#2D5BA8" android:pathData="M34,62 h14 v3 h-14 z" />
+
+    <!-- Silhouette de voiture blanche (à droite, en bas) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,74 l3,-6 a3,3 0 0 1 2.7,-1.7 h14.6 a3,3 0 0 1 2.7,1.7 l3,6 h2 a2,2 0 0 1 2,2 v6 a2,2 0 0 1 -2,2 h-2.5 a3.5,3.5 0 0 1 -7,0 h-12 a3.5,3.5 0 0 1 -7,0 h-2.5 a2,2 0 0 1 -2,-2 v-6 a2,2 0 0 1 2,-2 z" />
+    <!-- Fenêtres (couleur fond) -->
+    <path
+        android:fillColor="#142142"
+        android:pathData="M49.5,73 l1.8,-3.6 h11.4 l1.8,3.6 z" />
+    <!-- Roues -->
+    <path android:fillColor="#142142" android:pathData="M50,84 m-2.2,0 a2.2,2.2 0 1 0 4.4,0 a2.2,2.2 0 1 0 -4.4,0 z" />
+    <path android:fillColor="#142142" android:pathData="M64,84 m-2.2,0 a2.2,2.2 0 1 0 4.4,0 a2.2,2.2 0 1 0 -4.4,0 z" />
+</vector>
